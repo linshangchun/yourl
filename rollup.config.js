@@ -4,8 +4,8 @@ import { terser } from "rollup-plugin-terser"; // 压缩代码
 
 export default [
   "src/index.js",
-  // "src/utils/index.js",
-  // "src/share/utils/index.js",
+  "src/utils/index.js",
+  "src/share/utils/index.js",
 ].map((item) => {
   // 批量打包文件
   return {

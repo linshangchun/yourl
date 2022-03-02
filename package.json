@@ -23,6 +23,7 @@
     "clipboardy": "2.3.0",
     "commander": "^9.0.0",
     "dayjs": "^1.10.8",
+    "open": "^8.4.0",
     "shelljs": "^0.8.5",
     "yaml": "^1.10.2"
   },

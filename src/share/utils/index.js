@@ -117,7 +117,7 @@ const systemPkg = (pkg, opts) => {
   const chars = opts?.chars || `***`;
   return boxen(
     chalk.yellow(
-      `${chars} ${pkg.name} @${pkg.version} ${chars}\n${chars} ${pkg.description} ${chars}`
+      `${chars} ${pkg.name}@${pkg.version} ${chars}\n${chars} ${pkg.description} ${chars}`
     ),
     { padding: 1, ...opts }
   );

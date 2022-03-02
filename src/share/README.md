@@ -1,10 +1,9 @@
-## cli-share 共享子仓库
+### cli-share 共享子仓库
 
-> 用于 cli 相关项目的共享文件，技术原理: git subtree
->
-> git 地址: git@github.com:linshangchun/cli-share.git
+> 用于 cli 相关仓库的共享子仓库，技术原理: git subtree
+> repo 地址: https://github.com/linshangchun/cli-share
 
-### 父项目配置管理
+### 父仓库配置管理命令
 
 ```
   git remote add cli-share git@github.com:linshangchun/cli-share.git
@@ -35,3 +34,13 @@ share 共享文件夹
 - clipboardy
 - chalk
 - boxen
+
+### 特别注意 ！！！
+
+- share 文件夹下面的内容修改时一定要考虑验证修改前的兼容性
+- 当存在破坏性的修改优化时，所有关联的父仓库一定要同时 pull 更新测试
+
+### 已引用子仓库的父仓库
+
+- https://github.com/linshangchun/cli-item
+- https://github.com/linshangchun/yourl
