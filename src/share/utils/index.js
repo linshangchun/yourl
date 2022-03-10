@@ -27,18 +27,19 @@ const getRootStoreFileFullPath = (rootdir, filename) => {
 };
 
 // 同步写入json格式文件
-const fileWriteS = (p, d) => {
+const fileWriteS = (p, d, isJson = true) => {
   try {
     if (p.indexOf(".yml") > -1) {
       fs.writeFileSync(p, yaml.stringify(d));
     } else {
-      fs.writeFileSync(p, JSON.stringify(d, null, 2));
+      fs.writeFileSync(p, isJson ? JSON.stringify(d, null, 2) : d);
     }
   } catch (error) {
     console.log("fileWriteS-error：");
     console.log(error);
   }
 };
+
 // 按json格式同步读取文件
 const fileReadS = (p, { onError }) => {
   try {

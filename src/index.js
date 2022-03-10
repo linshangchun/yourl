@@ -1,3 +1,4 @@
+const fs = require("fs");
 const cmd = require("commander");
 const { exec } = require("shelljs");
 const open = require("open");
@@ -12,6 +13,7 @@ const {
   saveConf,
   activeURL,
   uuid_generate,
+  initExtendFile,
   ylSystem,
   ylPath,
 } = require("./utils");
@@ -19,13 +21,19 @@ const {
 const getCurURL = (alias, type = "item") => {
   if (cmd.commands.map((item) => item._name).includes(alias)) {
     console.log(`${alias}: 该别名为项目保留关键字！请重试`);
-    return type === "tag" ? [] : null;
+    return ["tag", "find"].includes(type) ? [] : null;
   }
   const allData = getData();
   if (type === "tag") {
     const curList = allData.filter((i) => i?.tag?.split(",").includes(alias));
     if (!curList.length && type === "tag")
       console.log(`yl: "not found the tag"`);
+    return curList;
+  }
+  if (type === "find") {
+    const curList = allData.filter((i) => JSON.stringify(i).includes(alias));
+    if (!curList.length && type === "find")
+      console.log(`yl: "not found the keyword"`);
     return curList;
   }
   const curURL = allData.find((i) => i.alias === alias);
@@ -119,6 +127,17 @@ cmd
   });
 
 cmd
+  .command("find <keyword>")
+  .description("【yl find <keyword>】关键字查找URL")
+  .action((keyword) => {
+    const curURLList = getCurURL(keyword, "find");
+    if (curURLList.length) {
+      console.log(`find ${keyword} in all:`);
+      console.log(curURLList.map(({ alias, url }) => ({ alias, url })));
+    }
+  });
+
+cmd
   .command(`list`)
   .alias("ls")
   .description(`【yl list】查看URL列表`)
@@ -148,31 +167,37 @@ cmd
 
 cmd
   .command(`edit [name]`)
-  .description(`【yl edit [data|conf]】查看并编辑数据文件`)
-  .action((name) => {
+  .description(`【yl edit [data|conf|extend]】查看并编辑数据文件`)
+  .option(`-e, --editToolCmd <editToolCmd>`, "指定打开文件的编辑器")
+  .action((name, opts) => {
     const { editToolCmd } = getConf();
     const namePathList = {
       data: ylPath.YOURL_DATA_PATH,
       conf: ylPath.YOURL_CONF_PATH,
+      extend: ylPath.YOURL_EXTEND_PATH,
     };
-    if (namePathList[name]) {
-      exec(`${editToolCmd} ${namePathList[name]}`, { silent: true });
+    let editFilePath = namePathList[name];
+    if (editFilePath) {
+      if (name === "extend" && !fs.existsSync(editFilePath)) {
+        initExtendFile();
+      }
+      exec(`${opts.editToolCmd || editToolCmd} ${editFilePath}`);
       return;
     }
-    console.log(`当前支持数据查看项: data 或 conf`);
+    console.log(`当前支持数据查看项: data|conf|extend`);
   });
 
 cmd
   .command(`conf`)
   .description(`【yl conf】系统设置`)
-  .option(`-e, --editToolCmd <editToolCmd>`, `编辑工具命令`)
+  .option(`-e, --editToolCmd <editToolCmd>`, `设置打开文件的编辑器`)
   .action((opts) => {
-    const itemInfo = getConf();
+    const itemConfInfo = getConf();
     if (opts.editToolCmd) {
-      itemInfo.editToolCmd = opts.editToolCmd;
-      saveConf(itemInfo);
+      itemConfInfo.editToolCmd = opts.editToolCmd;
+      saveConf(itemConfInfo);
     }
-    console.log(itemInfo);
+    console.log(itemConfInfo);
   });
 
 cmd
@@ -198,10 +223,28 @@ cmd
       console.log(systemPkg(getPackageInfo()));
       return;
     }
-    const [alias] = args;
+    const [alias, ...params] = args;
     const curURL = getCurURL(alias);
     if (curURL) {
-      open(curURL.url);
+      let openUrl = curURL.url;
+      let paramSet = {};
+      let paramsMap = params;
+      if (paramsMap.length > 0 && curURL.template) {
+        const extendPath = ylPath.YOURL_EXTEND_PATH;
+        if (fs.existsSync(extendPath)) {
+          const extendContent = require(extendPath);
+          // 对每个参数进行参数特殊处理，如：转换大小写、拼接参数等
+          paramsMap = extendContent[alias]?.paramsMap(params) || params;
+        }
+        paramsMap.forEach((item, index) => {
+          paramSet[`{{param${index}}}`] = item;
+        });
+        // 用输入参数填充模板参数空位组合新的链接
+        openUrl = curURL.template.replace(/{{param[0-9]+}}/g, (p) => {
+          return paramSet[p] || "";
+        });
+      }
+      open(openUrl);
     }
   });
 

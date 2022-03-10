@@ -7,6 +7,7 @@ const YOURL_NAME = "yourl";
 const STORE_ROOT_DIR = `.${YOURL_NAME}`;
 const STORE_DATA_FILENAME = `${YOURL_NAME}.json`;
 const STORE_CONF_FILENAME = `${YOURL_NAME}.yml`;
+const STORE_EXTEND_FILENAME = `${YOURL_NAME}.js`;
 const PACKAGE_FILENAME = "package.json";
 
 // http://patorjk.com/software/taag/#p=display&h=0&f=Banner3-D&t=yourl
@@ -31,6 +32,11 @@ const YOURL_DATA_PATH = shareUtils.getRootStoreFileFullPath(
 const YOURL_CONF_PATH = shareUtils.getRootStoreFileFullPath(
   STORE_ROOT_DIR,
   STORE_CONF_FILENAME
+);
+// 项目配置文件路径
+const YOURL_EXTEND_PATH = shareUtils.getRootStoreFileFullPath(
+  STORE_ROOT_DIR,
+  STORE_EXTEND_FILENAME
 );
 // 项目信息路径
 const PACKAGE_PATH = path.join(__dirname, "../..", PACKAGE_FILENAME);
@@ -96,6 +102,17 @@ const activeURL = ({ alias }) => {
   return tempData;
 };
 
+// 初始化创建extend文件
+const initExtendFile = () => {
+  try {
+    let openPath = YOURL_EXTEND_PATH;
+    const strTemplate = `module.exports = {}`;
+    shareUtils.fileWriteS(openPath, Buffer.from(strTemplate), false);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   ...shareUtils,
   getConf,
@@ -104,9 +121,11 @@ module.exports = {
   saveData,
   getPackageInfo,
   activeURL,
+  initExtendFile,
   ylPath: {
     YOURL_DATA_PATH,
     YOURL_CONF_PATH,
+    YOURL_EXTEND_PATH,
   },
   ylSystem: {
     LOGO,
