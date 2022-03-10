@@ -1,6 +1,6 @@
 {
   "name": "yourl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "your URL are all here",
   "main": "index.js",
   "bin": {
@@ -14,7 +14,11 @@
     "yl",
     "url-admin"
   ],
-  "files":["package.json","index.js","bin"],
+  "files": [
+    "package.json",
+    "index.js",
+    "bin"
+  ],
   "repository": "git@github.com:linshangchun/yourl.git",
   "author": "lshch <lshch.lshch@qq.com>",
   "license": "MIT",
