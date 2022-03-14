@@ -124,6 +124,22 @@ const systemPkg = (pkg, opts) => {
   );
 };
 
+// 标签管理
+const newTag = ({ oldTag = [], tag }) => {
+  // 输入"t0,t1-,t2,t4-",表示添加tag:[t0,t2],移除tag:[t1,t4]
+  if (!tag || !tag?.length) return oldTag;
+  const inputTag = tag.split(",");
+  const isOut = (i) => i.lastIndexOf("-") === i.length - 1;
+  const outTag = inputTag
+    .filter(isOut)
+    .map((t) => t.substring(0, t.length - 1));
+  const addTag = inputTag.filter((i) => !isOut(i));
+  const allTag = [...new Set([...oldTag, ...addTag])].filter(
+    (t) => !outTag.includes(t)
+  );
+  return allTag;
+};
+
 module.exports = {
   mdDirsSync,
   getRootStoreFileFullPath,
@@ -134,4 +150,5 @@ module.exports = {
   uuid_generate,
   systemLogo,
   systemPkg,
+  newTag,
 };
