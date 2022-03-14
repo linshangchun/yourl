@@ -27,18 +27,19 @@ const getRootStoreFileFullPath = (rootdir, filename) => {
 };
 
 // 同步写入json格式文件
-const fileWriteS = (p, d) => {
+const fileWriteS = (p, d, isJson = true) => {
   try {
     if (p.indexOf(".yml") > -1) {
       fs.writeFileSync(p, yaml.stringify(d));
     } else {
-      fs.writeFileSync(p, JSON.stringify(d, null, 2));
+      fs.writeFileSync(p, isJson ? JSON.stringify(d, null, 2) : d);
     }
   } catch (error) {
     console.log("fileWriteS-error：");
     console.log(error);
   }
 };
+
 // 按json格式同步读取文件
 const fileReadS = (p, { onError }) => {
   try {
@@ -117,10 +118,26 @@ const systemPkg = (pkg, opts) => {
   const chars = opts?.chars || `***`;
   return boxen(
     chalk.yellow(
-      `${chars} ${pkg.name} @${pkg.version} ${chars}\n${chars} ${pkg.description} ${chars}`
+      `${chars} ${pkg.name}@${pkg.version} ${chars}\n${chars} ${pkg.description} ${chars}`
     ),
     { padding: 1, ...opts }
   );
+};
+
+// 标签管理
+const newTag = ({ oldTag = [], tag }) => {
+  // 输入"t0,t1-,t2,t4-",表示添加tag:[t0,t2],移除tag:[t1,t4]
+  if (!tag || !tag?.length) return oldTag;
+  const inputTag = tag.split(",");
+  const isOut = (i) => i.lastIndexOf("-") === i.length - 1;
+  const outTag = inputTag
+    .filter(isOut)
+    .map((t) => t.substring(0, t.length - 1));
+  const addTag = inputTag.filter((i) => !isOut(i));
+  const allTag = [...new Set([...oldTag, ...addTag])].filter(
+    (t) => !outTag.includes(t)
+  );
+  return allTag;
 };
 
 module.exports = {
@@ -133,4 +150,5 @@ module.exports = {
   uuid_generate,
   systemLogo,
   systemPkg,
+  newTag,
 };
