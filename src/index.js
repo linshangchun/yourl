@@ -80,7 +80,8 @@ cmd
   .description(`【yl set <alias> [-a,-d,-t]】更新URL`)
   .option(`-a, --alias <alias>`, `更新别名`)
   .option(`-d, --description <description>`, `更新描述`)
-  .option(`-t, --tag <tag>`, `更新标签`)
+  .option(`-t, --template <template>`, `更新模板`, null)
+  .option(`-T, --tag <tag>`, `更新标签`)
   .action((alias, opts) => {
     const allData = getData();
     const curURL = getCurURL(alias, "set");
@@ -90,12 +91,14 @@ cmd
           if (item.alias === alias) {
             item.active = (item.active || 0) + 1;
             item.alias = opts.alias ? opts.alias : item.alias;
+            item.template = opts.template ? opts.template : item.template;
             item.description = opts.description
               ? opts.description
               : item.description;
             item.tag = newTag({ oldTag: item.tag, tag: opts.tag });
             item.updateTime = dayjs().format("YYYY-MM-DD HH:mm:ss");
             console.log(`changed-itemAlias: ${item.alias}`);
+            console.log(`changed-itemTemplate: ${item.template}`);
             console.log(`changed-itemDesc: ${item.description}`);
             console.log(`changed-itemTag: ${item?.tag?.join(",")}`);
           }
