@@ -30,6 +30,8 @@ share 共享文件夹
 
 三方模块
 
+> yarn add yaml@1.10.2 clipboardy@2.3.0 chalk@4.1.1 boxen@5.0.1
+
 - yaml
 - clipboardy
 - chalk

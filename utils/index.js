@@ -41,7 +41,7 @@ const fileWriteS = (p, d, isJson = true) => {
 };
 
 // 按json格式同步读取文件
-const fileReadS = (p, { onError }) => {
+const fileReadS = (p, opts) => {
   try {
     const dataU8 = fs.readFileSync(p, "utf8");
     if (p.indexOf(".yml") > -1) {
@@ -51,8 +51,8 @@ const fileReadS = (p, { onError }) => {
     }
     return null;
   } catch (error) {
-    if (typeof onError === "function") {
-      const errRes = onError(error);
+    if (typeof opts?.onError === "function") {
+      const errRes = opts.onError(error);
       if (errRes) {
         return errRes;
       }
