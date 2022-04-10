@@ -34,6 +34,7 @@ or  >yl <cmd> -h
 ## .yourlrc.yml
 
 > 任意项目文件夹里配置[.yourlrc.yml]，在该项目文件夹下执行控制台命令[yl alisa]，即可快速打开匹配网址
+>
 > 功能支持版本号: 1.0.6+
 
 如何配置：[👉 点击查看](https://github.com/linshangchun/yourl/blob/master/example/.yourlrc.yml)
