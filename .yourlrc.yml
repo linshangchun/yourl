@@ -1,0 +1,10 @@
+# https://www.npmjs.com/package/yourl
+# version: 1.0.6+
+
+repo: https://github.com/linshangchun/yourl
+npm: https://www.npmjs.com/package/yourl
+bd: https://www.baidu.com
+gg: https://www.google.com.hk
+fs: http://nodejs.cn/api/fs.html
+proc: http://nodejs.cn/api/process.html
+os: http://nodejs.cn/api/os.html

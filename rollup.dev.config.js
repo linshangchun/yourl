@@ -13,7 +13,6 @@ export default [
       file: item.replace("src/", "bin/"),
       format: "cjs",
     },
-    watch: true,
     plugins: [
       babel({
         exclude: "node_modules/**",

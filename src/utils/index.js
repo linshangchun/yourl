@@ -8,6 +8,7 @@ const STORE_ROOT_DIR = `.${YOURL_NAME}`;
 const STORE_DATA_FILENAME = `${YOURL_NAME}.json`;
 const STORE_CONF_FILENAME = `${YOURL_NAME}.yml`;
 const STORE_EXTEND_FILENAME = `${YOURL_NAME}.js`;
+const RUN_COMMAND_FILENAME = `.${YOURL_NAME}rc.yml`;
 const PACKAGE_FILENAME = "package.json";
 
 // http://patorjk.com/software/taag/#p=display&h=0&f=Banner3-D&t=yourl
@@ -41,6 +42,9 @@ const YOURL_EXTEND_PATH = shareUtils.getRootStoreFileFullPath(
 // 项目信息路径
 const PACKAGE_PATH = path.join(__dirname, "../..", PACKAGE_FILENAME);
 
+// 运行时数据文件路径
+const RUN_COMMAND_PATH = path.join(process.cwd(), RUN_COMMAND_FILENAME);
+
 const handleFlieReadError = (error) => {
   if (error.code === "ENOENT") {
     // 无项目数据文件时
@@ -61,8 +65,8 @@ const handleFlieReadError = (error) => {
   }
   return null;
 };
-const fileReadS = (path) =>
-  shareUtils.fileReadS(path, { onError: handleFlieReadError });
+const fileReadS = (path, opts) =>
+  shareUtils.fileReadS(path, { onError: handleFlieReadError, ...opts });
 
 // 所有项目-配置信息
 const getConf = () => {
@@ -72,13 +76,19 @@ const getConf = () => {
 const saveConf = (data) => {
   return shareUtils.fileWriteS(YOURL_CONF_PATH, data);
 };
-// 所有项目信息
-const getData = () => {
-  return fileReadS(YOURL_DATA_PATH);
+// 所有运行时数据信息
+const getRCData = () => {
+  if (!fs.existsSync(RUN_COMMAND_PATH)) return null;
+  return fileReadS(RUN_COMMAND_PATH);
 };
 // 保存项目信息
 const saveData = (data) => {
   return shareUtils.fileWriteS(YOURL_DATA_PATH, data);
+};
+
+// 所有项目信息
+const getData = () => {
+  return fileReadS(YOURL_DATA_PATH);
 };
 
 // 获取项目信息
@@ -122,6 +132,7 @@ module.exports = {
   getPackageInfo,
   activeURL,
   initExtendFile,
+  getRCData,
   ylPath: {
     YOURL_DATA_PATH,
     YOURL_CONF_PATH,

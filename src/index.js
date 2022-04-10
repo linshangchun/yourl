@@ -17,6 +17,7 @@ const {
   newTag,
   ylSystem,
   ylPath,
+  getRCData,
 } = require("./utils");
 
 const getCurURL = (alias, type = "item") => {
@@ -205,6 +206,18 @@ cmd
     }
   });
 
+cmd
+  .command("test [name]")
+  .alias("t")
+  .description("开发模块测试")
+  .option(`-o, --opt`, "选项描述", "默认值: str|num|bool")
+  .action((name, opts) => {
+    console.log(getRCData());
+  });
+
+const isString = (v) => Object.prototype.toString.call(v) === "[object String]";
+const isObject = (v) => Object.prototype.toString.call(v) === "[object Object]";
+const isArray = (v) => Object.prototype.toString.call(v) === "[object Array]";
 // 子命令兜底处理
 cmd
   .arguments(`[args...]`)
@@ -217,6 +230,25 @@ cmd
       return;
     }
     const [alias, ...params] = args;
+    // 匹配运行时数据文件
+    const rcURLs = getRCData();
+    if (rcURLs && rcURLs[alias]) {
+      let rcURL = rcURLs[alias];
+      if (isString(rcURL)) {
+        open(rcURL);
+        return;
+      } else if (isObject(rcURL)) {
+        open(rcURL.url);
+        return;
+      } else if (isArray(rcURL)) {
+        rcURL.forEach((itemUrl) => {
+          if (isString(itemUrl)) open(itemUrl);
+          if (isObject(itemUrl)) open(itemUrl.url);
+        });
+        return;
+      }
+    }
+    // 匹配系统数据文件
     const curURL = getCurURL(alias);
     if (curURL) {
       let openUrl = curURL.url;
