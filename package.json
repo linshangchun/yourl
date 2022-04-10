@@ -1,6 +1,6 @@
 {
   "name": "yourl",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "cli: your URL are all here",
   "main": "index.js",
   "bin": {
