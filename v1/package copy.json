@@ -1,39 +1,30 @@
 {
   "name": "yourl",
-  "version": "2.0.0",
+  "version": "1.0.7",
   "description": "cli: your URL are all here",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "index.js",
   "bin": {
     "yl": "./index.js"
   },
   "scripts": {
-    "clean:dist": "rimraf dist",
-    "build:types": "tsc -b ./tsconfig.types.json",
-    "start": "nodemon",
-    "dev": "npm run build:types && etsc",
-    "build": "cross-env NODE_ENV=production && npm run clean:dist && npm run build:types && etsc",
-    "pretest": "npm run build",
-    "test": "node test/test.js",
+    "dev": "rollup -c rollup.dev.config.js -w",
+    "build": "rollup -c",
     "pub": "npm version patch && rollup -c && npm publish --registry https://registry.npmjs.org"
   },
   "keywords": [
-    "yl",
     "yourl",
-    "yourlrc",
-    "link"
+    "yl",
+    "url-admin"
   ],
   "files": [
     "package.json",
     "index.js",
-    "dist"
+    "bin"
   ],
   "repository": "git@github.com:linshangchun/yourl.git",
   "author": "lshch <lshch.lshch@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@lshch/utils-link": "^1.0.4",
-    "@lshch/utils-node": "^1.0.2",
     "boxen": "5.0.1",
     "chalk": "4.1.1",
     "clipboardy": "2.3.0",
@@ -50,12 +41,6 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@types/node": "^18.14.0",
-    "cross-env": "^7.0.3",
-    "esbuild": "^0.17.10",
-    "esbuild-node-tsc": "^2.0.5",
-    "nodemon": "^2.0.20",
-    "rimraf": "^4.1.2",
     "rollup": "^3.17.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-cleanup": "^3.2.1",
