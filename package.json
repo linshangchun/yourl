@@ -1,6 +1,6 @@
 {
   "name": "yourl",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "软链接集合管理工具 your URL(or Link) are all here",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
