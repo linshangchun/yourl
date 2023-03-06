@@ -1,7 +1,7 @@
 {
   "name": "yourl",
   "version": "2.0.0",
-  "description": "cli: your URL are all here",
+  "description": "软链接集合管理工具 your URL(or Link) are all here",
   "main": "./dist/index.js",
   "types": "./dist/types/index.d.ts",
   "bin": {
@@ -20,6 +20,7 @@
   },
   "keywords": [
     "yl",
+    "cli",
     "yourl",
     "yourlrc",
     "url",
@@ -35,8 +36,8 @@
   "author": "lshch <lshch.lshch@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@lshch/utils-link": "^1.0.5",
-    "@lshch/utils-node": "^1.0.2",
+    "@lshch/utils-link": "^1.0.6",
+    "@lshch/utils-node": "^1.0.6",
     "commander": "^9.0.0"
   },
   "devDependencies": {

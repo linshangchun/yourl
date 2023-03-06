@@ -1,6 +1,6 @@
 ## Description
 
-cli: your URL are all here
+yourl: 软链接集合管理工具 your URL(or Link) are all here
 
 ## Play time
 
@@ -11,7 +11,7 @@ cli: your URL are all here
 测试：
     > yl
 or  > yl -h
-添加或编辑链接信息:
+添加或修改链接信息:
     > yl set <alisa> <url>
 打开链接:
     > yl <alisa>
@@ -24,8 +24,8 @@ or  > yl -h
 or  > yl <cmd> -h
 
 默认说明：
-1、打开链接 yl alisa：使用系统默认的浏览器打开[alisa 别名]匹配的url
-2、编辑文件 yl edit linkrc|link，默认使用vscode编辑器，也可指定 yl edit [-t idea|webstore|other-edit-cmd]
+1、打开软链接 yl alisa：使用系统默认的浏览器打开[alisa 别名]匹配的url
+2、编辑软链接配置|数据 yl edit linkrc|link，默认使用vscode编辑器，也可指定编辑器编辑 yl edit [-t idea|webstore|other-edit-cmd]
 
 ```
 ## .yourlrc

@@ -22,7 +22,7 @@ const checkAlias = (alias: string): Promise<boolean> => {
 
 program
   .command('set <alias> <url>')
-  .description('添加或编辑软链接')
+  .description('添加或修改软链接')
   .option(`-d, --description <description>`, '软链接描述')
   .option(`-y, --yes [yes]`, `跳过提示`)
   .action(async (alias, url, opts) => {
@@ -42,7 +42,7 @@ program
 
 program
   .command('edit <alias>')
-  .description('编辑软链接')
+  .description('编辑软链接配置|数据')
   .option(`-t, --tool <tool>`, '编辑工具')
   .action(async (alias, opts) => {
     const file_paths = {
